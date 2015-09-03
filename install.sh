@@ -81,7 +81,8 @@ if [ $ISPConfig_Installed = "No" ]; then
 	header "Installing Mail Server Selection..."
 	if [ $install_mail_server == "Yes" ]; then
 		echo "install mail server"
-		while 1 do
+		while 1 
+		do
 		done
 		if [ $mail_server == "Courier" ]; then
 			$DISTRIBUTION.install_Courier
