@@ -28,3 +28,7 @@ if command -v lsb_release &> /dev/null; then
 		DISTRIBUTION=ubuntu
 	fi
 fi
+
+if [ $DISTRIBUTION == "ubuntu" ]; then
+	DISTRIBUTION_VERSION=$(lsb_release -c | cut -f2)
+fi
