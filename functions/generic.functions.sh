@@ -93,7 +93,11 @@ if (whiptail --title "Install Jailkit" --backtitle "$back_title" --yesno "Setup 
 	else
 	jailkit=No
 fi
-
+if (whiptail --title "Install SquirrelMail" --backtitle "$back_title" --yesno "Setup SquirrelMail?" 10 50) then
+	squirrelmail=Yes
+	else
+	squirrelmail=No
+fi
 }
 
 install_Extras () {
