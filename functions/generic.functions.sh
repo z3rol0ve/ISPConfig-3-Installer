@@ -126,7 +126,7 @@ echo "$HOSTNAMEFQDN" > /etc/hostname
 
 apt-get update
 apt-get -y upgrade
-apt-get install -y vim-nox dnsutils unzip rkhunter binutils sudo bzip2 zip
+apt-get install -y nano dialog vim-nox dnsutils unzip rkhunter binutils sudo bzip2 zip
 
 echo "dash dash/sh boolean false" | debconf-set-selections
 dpkg-reconfigure -f noninteractive dash > /dev/null 2>&1
