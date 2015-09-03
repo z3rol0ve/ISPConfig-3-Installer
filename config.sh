@@ -4,6 +4,9 @@
 # Default Distribution
 DISTRIBUTION=none
 
+# Default Distribution
+DISTRIBUTION_VERSION=""
+
 # Library Path
 LIBRARYPATH=libraries
 
