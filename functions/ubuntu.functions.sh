@@ -18,7 +18,6 @@ deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION main restricte
 deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-updates main restricted universe multiverse
 deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-backports main restricted universe multiverse
 deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-security main restricted universe multiverse
-deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION partner
 EOF
 
 } #end function ubuntu.install_Repos
