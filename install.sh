@@ -124,8 +124,10 @@ if [ $ISPConfig_Installed = "No" ]; then
 	if [ $mail_server == "Dovecot" ]; then
 		$DISTRIBUTION.install_Fail2BanRulesDovecot
 	fi
-	header "Installing SquirrelMail..."
-	$DISTRIBUTION.install_SquirrelMail
+	if [ $squirrelmail == "Yes" ]; then
+		header "Installing SquirrelMail..."
+		$DISTRIBUTION.install_SquirrelMail
+	fi
 	header "Installing ISPConfig3..."
 	install_ISPConfig
 elif [ $ISPConfig_Installed == "Yes" ]; then
