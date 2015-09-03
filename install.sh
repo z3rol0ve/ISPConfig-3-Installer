@@ -82,7 +82,7 @@ if [ $ISPConfig_Installed = "No" ]; then
 	if [ $install_mail_server == "Yes" ]; then
 		echo "install mail server"
 		while 1 do
-		fi
+		done
 		if [ $mail_server == "Courier" ]; then
 			$DISTRIBUTION.install_Courier
 		elif [ $mail_server == "Dovecot" ]; then
