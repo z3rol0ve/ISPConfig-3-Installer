@@ -14,29 +14,11 @@ ubuntu.install_Repos (){
 #Updates server and install commonly used utilities
 cp /etc/apt/sources.list /etc/apt/sources.list.backup
 cat > /etc/apt/sources.list <<EOF
-deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted
-deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates main restricted
-
-deb mirror://mirrors.ubuntu.com/mirrors.txt trusty universe
-deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty universe
-
-deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates universe
-deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates universe
-
-deb mirror://mirrors.ubuntu.com/mirrors.txt trusty multiverse
-deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty multiverse
-
-deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates multiverse
-deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates multiverse
-
-deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-backports main restricted universe multiverse
-deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty-backports main restricted universe multiverse
-
-deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-security main restricted
-deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty-security main restricted
-
-deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-security universe
-deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty-security universe
+deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-updates main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-backports main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-security main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION partner
 EOF
 
 } #end function ubuntu.install_Repos
@@ -69,13 +51,13 @@ service mysql restart
 ubuntu.install_MariaDB (){
 
 apt-get install -y software-properties-common python-software-properties
-apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
+apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
 
 if [ $maria_version == "5.5" ]; then
-    add-apt-repository 'deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu saucy main'
+    add-apt-repository "deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/5.5/ubuntu $DISTRIBUTION_VERSION main"
 fi
 if [ $maria_version == "10.0" ]; then
-    add-apt-repository 'deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu saucy main'
+    add-apt-repository "deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu $DISTRIBUTION_VERSION main"
 fi
 
 echo "mysql-server mysql-server/root_password password $mysql_pass" | debconf-set-selections
@@ -89,8 +71,7 @@ EOF
 
 apt-get update
 
-apt-get install -y mariadb-server 
-apt-get install -y mariadb-client
+apt-get install -y mariadb-server mariadb-client
 apt-get -y install php5-cli php5-mysqlnd php5-mcrypt mcrypt
 
 #Allow MySQL to listen on all interfaces
