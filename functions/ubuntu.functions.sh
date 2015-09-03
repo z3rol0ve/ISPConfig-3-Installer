@@ -158,12 +158,6 @@ apt-get install apache2 apache2-doc apache2-utils libapache2-mod-php5 php5 php5-
 a2enmod suexec rewrite ssl actions include actions fastcgi alias
 a2enmod dav_fs dav auth_digest
 
-#Fix Ming Error
-rm /etc/php5/cli/conf.d/ming.ini
-cat > /etc/php5/cli/conf.d/ming.ini <<EOF
-extension=ming.so
-EOF
-
 cp /etc/apache2/mods-available/suphp.conf /etc/apache2/mods-available/suphp.conf.backup
 cat > /etc/apache2/mods-available/suphp.conf <<EOF
 <IfModule mod_suphp.c>
