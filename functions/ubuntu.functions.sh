@@ -157,6 +157,7 @@ apt-get install apache2 apache2-doc apache2-utils libapache2-mod-php5 php5 php5-
 
 a2enmod suexec rewrite ssl actions include actions fastcgi alias
 a2enmod dav_fs dav auth_digest
+a2enmod deflate env expires headers mime setenvif
 
 cp /etc/apache2/mods-available/suphp.conf /etc/apache2/mods-available/suphp.conf.backup
 cat > /etc/apache2/mods-available/suphp.conf <<EOF
