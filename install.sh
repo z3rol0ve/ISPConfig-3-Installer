@@ -118,11 +118,13 @@ if [ $ISPConfig_Installed = "No" ]; then
 	fi
 	header "Installing Fail2Ban..."
 	$DISTRIBUTION.install_Fail2Ban
-	if [ $mail_server == "Courier" ]; then
-		$DISTRIBUTION.install_Fail2BanRulesCourier
-	fi
-	if [ $mail_server == "Dovecot" ]; then
-		$DISTRIBUTION.install_Fail2BanRulesDovecot
+	if [ $install_mail_server == "Yes" ]; then
+		if [ $mail_server == "Courier" ]; then
+			$DISTRIBUTION.install_Fail2BanRulesCourier
+		fi
+		if [ $mail_server == "Dovecot" ]; then
+			$DISTRIBUTION.install_Fail2BanRulesDovecot
+		fi
 	fi
 	if [ $squirrelmail == "Yes" ]; then
 		header "Installing SquirrelMail..."
