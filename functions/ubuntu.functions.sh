@@ -200,7 +200,7 @@ ubuntu.install_NginX (){
 #Install NginX, PHP5, phpMyAdmin, FCGI, suExec, Pear, And mcrypt
 
 echo 'phpmyadmin      phpmyadmin/reconfigure-webserver        multiselect' | debconf-set-selections
-echo 'phpmyadmin      phpmyadmin/dbconfig-install     boolean false' | debconf-set-selections
+#echo 'phpmyadmin      phpmyadmin/dbconfig-install     boolean false' | debconf-set-selections
 
 apt-get -y install nginx
 
@@ -209,7 +209,7 @@ update-rc.d -f apache2 remove
 
 service nginx start
 
-apt-get -y install php5-fpm php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
+apt-get -y install php5-fpm php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-sqlite php5-tidy php5-xmlrpc php5-xsl
 apt-get -y install php-apc
 #PHP Configuration Stuff Goes Here
 /etc/init.d/php5-fpm reload
