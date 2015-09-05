@@ -41,7 +41,7 @@ apt-get -y install php5-cli php5-mysqlnd php5-mcrypt mcrypt
     
 #Allow MySQL to listen on all interfaces
 cp /etc/mysql/my.cnf /etc/mysql/my.cnf.backup
-sed -i 's/bind-address/#bind-address' /etc/mysql/my.cnf
+sed -i 's/bind-address/#bind-address/' /etc/mysql/my.cnf
 
 service mysql restart
 
@@ -75,7 +75,7 @@ apt-get -y install php5-cli php5-mysqlnd php5-mcrypt mcrypt
 
 #Allow MySQL to listen on all interfaces
 cp /etc/mysql/my.cnf /etc/mysql/my.cnf.backup
-sed -i 's/bind-address/#bind-address' /etc/mysql/my.cnf
+sed -i 's/bind-address/#bind-address/' /etc/mysql/my.cnf
 /etc/init.d/mysql restart
 
 } #end function ubuntu.install_MariaDB
