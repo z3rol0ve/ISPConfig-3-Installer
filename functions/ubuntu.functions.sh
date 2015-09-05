@@ -159,6 +159,16 @@ a2enmod suexec rewrite ssl actions include actions fastcgi alias
 a2enmod dav_fs dav auth_digest
 a2enmod deflate env expires headers mime setenvif
 
+sed -i 's/;opcache.enable=0/opcache.enable=1/' /etc/php5/fpm/php.ini
+sed -i 's/;opcache.enable_cli=0/opcache.enable_cli=1/' /etc/php5/fpm/php.ini
+sed -i 's/;opcache.memory_consumption=64/opcache.memory_consumption=128/' /etc/php5/fpm/php.ini
+sed -i 's/;opcache.interned_strings_buffer=4/opcache.interned_strings_buffer=8/' /etc/php5/fpm/php.ini
+sed -i 's/;opcache.max_accelerated_files=2000/opcache.max_accelerated_files=4000/' /etc/php5/fpm/php.ini
+sed -i 's/;opcache.fast_shutdown=0/opcache.fast_shutdown=1/' /etc/php5/fpm/php.ini
+sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php5/fpm/php.ini
+sed -i 's/;date.timezone =/date.timezone ="Asia\/Ho_Chi_Minh"/' /etc/php5/fpm/php.ini
+/etc/init.d/php5-fpm reload
+
 cp /etc/apache2/mods-available/suphp.conf /etc/apache2/mods-available/suphp.conf.backup
 cat > /etc/apache2/mods-available/suphp.conf <<EOF
 <IfModule mod_suphp.c>
@@ -187,9 +197,6 @@ EOF
 
 sed -i "s/x-ruby                             rb/x-ruby                            rb/#x-ruby                             rb/x-ruby                            rb/" /etc/mime.types
 
-#Install X-Cache
-apt-get -y install php5-xcache
-
 service apache2 restart
 
 } #end function ubuntu.install_Apache2
@@ -210,7 +217,17 @@ update-rc.d -f apache2 remove
 service nginx start
 
 apt-get -y install php5-fpm php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-sqlite php5-tidy php5-xmlrpc php5-xsl
-apt-get -y install php-apc
+
+sed -i 's/;opcache.enable=0/opcache.enable=1/' /etc/php5/fpm/php.ini
+sed -i 's/;opcache.enable_cli=0/opcache.enable_cli=1/' /etc/php5/fpm/php.ini
+sed -i 's/;opcache.memory_consumption=64/opcache.memory_consumption=128/' /etc/php5/fpm/php.ini
+sed -i 's/;opcache.interned_strings_buffer=4/opcache.interned_strings_buffer=8/' /etc/php5/fpm/php.ini
+sed -i 's/;opcache.max_accelerated_files=2000/opcache.max_accelerated_files=4000/' /etc/php5/fpm/php.ini
+sed -i 's/;opcache.fast_shutdown=0/opcache.fast_shutdown=1/' /etc/php5/fpm/php.ini
+sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php5/fpm/php.ini
+sed -i 's/;date.timezone =/date.timezone ="Asia\/Ho_Chi_Minh"/' /etc/php5/fpm/php.ini
+
+
 #PHP Configuration Stuff Goes Here
 /etc/init.d/php5-fpm reload
 apt-get -y install fcgiwrap
