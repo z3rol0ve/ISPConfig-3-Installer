@@ -239,12 +239,6 @@ service apache2 stop
 update-rc.d -f apache2 remove
 service nginx start
 
-#Fix Ming Error
-rm /etc/php5/cli/conf.d/ming.ini
-cat > /etc/php5/cli/conf.d/ming.ini <<EOF
-extension=ming.so
-EOF
-
 /etc/init.d/php5-fpm restart
 
 } #end function ubuntu.install_NginX
