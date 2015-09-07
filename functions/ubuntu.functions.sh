@@ -168,7 +168,11 @@ sed -i 's/;opcache.fast_shutdown=0/opcache.fast_shutdown=1/' /etc/php5/fpm/php.i
 sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php5/fpm/php.ini
 sed -i 's/;date.timezone =/date.timezone ="Asia\/Ho_Chi_Minh"/' /etc/php5/fpm/php.ini
 /etc/init.d/php5-fpm reload
-
+cd /tmp
+wget https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb 
+dpkg -i mod-pagespeed-stable_current_amd64.deb
+sed -i 's/# ModPagespeedMemcachedServers/ModPagespeedMemcachedServers/' /etc/apache2/mods-available/pagespeed.conf
+sed -i 's/#ModPagespeedMemcachedServers/ModPagespeedMemcachedServers/' /etc/apache2/mods-available/pagespeed.conf
 cp /etc/apache2/mods-available/suphp.conf /etc/apache2/mods-available/suphp.conf.backup
 cat > /etc/apache2/mods-available/suphp.conf <<EOF
 <IfModule mod_suphp.c>
@@ -204,12 +208,14 @@ service apache2 restart
 
 ubuntu.install_NginX (){
 
+add-apt-repository -y ppa:rtcamp/nginx
+apt-get update
 #Install NginX, PHP5, phpMyAdmin, FCGI, suExec, Pear, And mcrypt
 
 echo 'phpmyadmin      phpmyadmin/reconfigure-webserver        multiselect' | debconf-set-selections
 #echo 'phpmyadmin      phpmyadmin/dbconfig-install     boolean false' | debconf-set-selections
 
-apt-get -y install nginx
+apt-get -y install nginx-custom
 
 service apache2 stop
 update-rc.d -f apache2 remove
@@ -227,6 +233,29 @@ sed -i 's/;opcache.fast_shutdown=0/opcache.fast_shutdown=1/' /etc/php5/fpm/php.i
 sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php5/fpm/php.ini
 sed -i 's/;date.timezone =/date.timezone ="Asia\/Ho_Chi_Minh"/' /etc/php5/fpm/php.ini
 
+cat > /etc/nginx/conf.d/pagespeed.conf <<EOF
+# Turning the module on and off
+pagespeed on;
+
+# Configuring PageSpeed Filters
+pagespeed RewriteLevel PassThrough;
+
+# Needs to exist and be writable by nginx.  Use tmpfs for best performance.
+pagespeed MemcachedServers "127.0.0.1:11211";
+pagespeed FileCachePath /var/ngx_pagespeed_cache;
+
+# PageSpeed Admin
+pagespeed StatisticsPath /ngx_pagespeed_statistics;
+pagespeed GlobalStatisticsPath /ngx_pagespeed_global_statistics;
+pagespeed MessagesPath /ngx_pagespeed_message;
+pagespeed ConsolePath /pagespeed_console;
+pagespeed AdminPath /pagespeed_admin;
+pagespeed GlobalAdminPath /pagespeed_global_admin;
+
+# PageSpeed Cache Purge
+pagespeed EnableCachePurge on;
+pagespeed PurgeMethod PURGE;
+EOF
 
 #PHP Configuration Stuff Goes Here
 /etc/init.d/php5-fpm reload
