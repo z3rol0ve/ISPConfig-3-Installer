@@ -168,11 +168,18 @@ sed -i 's/;opcache.fast_shutdown=0/opcache.fast_shutdown=1/' /etc/php5/fpm/php.i
 sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php5/fpm/php.ini
 sed -i 's/;date.timezone =/date.timezone ="Asia\/Ho_Chi_Minh"/' /etc/php5/fpm/php.ini
 /etc/init.d/php5-fpm reload
+
 cd /tmp
-wget https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb 
-dpkg -i mod-pagespeed-stable_current_amd64.deb
+if [ $(uname -i) = "x86_64" ]; then
+    wget https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb
+    dpkg -i mod-pagespeed-stable_current_amd64.deb
+else
+    wget https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_i386.deb 
+    dpkg -i mod-pagespeed-stable_current_i386.deb
+fi
 sed -i 's/# ModPagespeedMemcachedServers/ModPagespeedMemcachedServers/' /etc/apache2/mods-available/pagespeed.conf
 sed -i 's/#ModPagespeedMemcachedServers/ModPagespeedMemcachedServers/' /etc/apache2/mods-available/pagespeed.conf
+
 cp /etc/apache2/mods-available/suphp.conf /etc/apache2/mods-available/suphp.conf.backup
 cat > /etc/apache2/mods-available/suphp.conf <<EOF
 <IfModule mod_suphp.c>
