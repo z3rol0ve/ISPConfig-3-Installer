@@ -264,6 +264,14 @@ pagespeed EnableCachePurge on;
 pagespeed PurgeMethod PURGE;
 EOF
 
+cat > /etc/nginx/conf.d/fastcgi_cache.conf <<EOF
+fastcgi_cache_path /var/run/nginx-cache levels=1:2 keys_zone=WORDPRESS:100m inactive=60m;
+fastcgi_cache_key "$scheme$request_method$host$request_uri";
+fastcgi_cache_use_stale error timeout invalid_header http_500;
+fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
+#https://rtcamp.com/wordpress-nginx/tutorials/single-site/fastcgi-cache-with-purging/
+EOF
+
 #PHP Configuration Stuff Goes Here
 /etc/init.d/php5-fpm reload
 apt-get -y install fcgiwrap
