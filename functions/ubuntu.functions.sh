@@ -246,6 +246,7 @@ sed -i 's/;opcache.fast_shutdown=0/opcache.fast_shutdown=1/' /etc/php5/fpm/php.i
 sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php5/fpm/php.ini
 sed -i 's/;date.timezone =/date.timezone ="Asia\/Ho_Chi_Minh"/' /etc/php5/fpm/php.ini
 
+#Enable pagespeed
 cat > /etc/nginx/conf.d/pagespeed.conf <<EOF
 # Turning the module on and off
 pagespeed on;
@@ -270,6 +271,7 @@ pagespeed EnableCachePurge on;
 pagespeed PurgeMethod PURGE;
 EOF
 
+#Enable fastcgi_cache
 cat > /etc/nginx/conf.d/fastcgi_cache.conf <<EOF
 fastcgi_cache_path /var/run/nginx-cache levels=1:2 keys_zone=WORDPRESS:100m inactive=60m;
 fastcgi_cache_key "$scheme$request_method$host$request_uri";
@@ -277,7 +279,13 @@ fastcgi_cache_use_stale error timeout invalid_header http_500;
 fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
 #https://rtcamp.com/wordpress-nginx/tutorials/single-site/fastcgi-cache-with-purging/
 EOF
-
+#Enable open_file_cache
+cat > /etc/nginx/conf.d/open_file_cache.conf <<EOF
+open_file_cache          max=10000 inactive=5m;
+open_file_cache_valid    2m;
+open_file_cache_min_uses 1;
+open_file_cache_errors   on;
+EOF
 #PHP Configuration Stuff Goes Here
 /etc/init.d/php5-fpm reload
 apt-get -y install fcgiwrap
