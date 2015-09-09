@@ -13,11 +13,17 @@ ubuntu.install_Repos (){
 
 #Updates server and install commonly used utilities
 cp /etc/apt/sources.list /etc/apt/sources.list.backup
+#cat > /etc/apt/sources.list <<EOF
+#deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION main restricted universe multiverse
+#deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-updates main restricted universe multiverse
+#deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-backports main restricted universe multiverse
+#deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-security main restricted universe multiverse
+#EOF
 cat > /etc/apt/sources.list <<EOF
-deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION main restricted universe multiverse
-deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-updates main restricted universe multiverse
-deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-backports main restricted universe multiverse
-deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
 EOF
 
 } #end function ubuntu.install_Repos
