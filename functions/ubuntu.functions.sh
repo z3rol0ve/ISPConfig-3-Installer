@@ -10,7 +10,9 @@
 back_title="ISPConfig 3 System Installer"
 
 ubuntu.install_Repos (){
-
+#Fix unocodedecodeerror
+sudo locale-gen en_US.UTF-8
+export LANG=en_US.UTF-8
 #Updates server and install commonly used utilities
 cp /etc/apt/sources.list /etc/apt/sources.list.backup
 #cat > /etc/apt/sources.list <<EOF
