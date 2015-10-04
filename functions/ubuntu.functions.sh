@@ -24,6 +24,7 @@ deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
 deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
 deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse
 deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main 
 EOF
 
 } #end function ubuntu.install_Repos
