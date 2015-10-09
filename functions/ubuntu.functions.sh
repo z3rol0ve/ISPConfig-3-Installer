@@ -256,7 +256,7 @@ cat > /etc/nginx/conf.d/pagespeed.conf <<EOF
 pagespeed on;
 
 # Configuring PageSpeed Filters
-pagespeed RewriteLevel PassThrough;
+pagespeed RewriteLevel CoreFilters;
 
 # Needs to exist and be writable by nginx.  Use tmpfs for best performance.
 pagespeed MemcachedServers "127.0.0.1:11211";
