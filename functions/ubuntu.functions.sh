@@ -240,6 +240,14 @@ service nginx start
 
 apt-get -y install php5-fpm php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-memcached php5-memcache memcached php5-ps php5-pspell php5-recode php5-sqlite php5-tidy php5-xmlrpc php5-xsl
 
+#install geoip module
+wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
+gunzip GeoLiteCity.dat.gz
+mkdir -v /usr/share/GeoIP
+mv -v GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat
+
+apt-get -y install php5-geoip
+
 #reconfig php.ini
 sed -i 's/;opcache.enable=0/opcache.enable=1/' /etc/php5/fpm/php.ini
 sed -i 's/;opcache.enable_cli=0/opcache.enable_cli=1/' /etc/php5/fpm/php.ini
