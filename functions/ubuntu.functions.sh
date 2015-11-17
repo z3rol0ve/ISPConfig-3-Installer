@@ -248,7 +248,9 @@ mv -v GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat
 
 apt-get -y install php5-geoip
 
-#reconfig php.ini
+#reconfig php.ini without touching it
+#cat > /etc/php5/fpm/pool.d/custom.conf <<EOF
+#EOF
 sed -i 's/;opcache.enable=0/opcache.enable=1/' /etc/php5/fpm/php.ini
 sed -i 's/;opcache.enable_cli=0/opcache.enable_cli=1/' /etc/php5/fpm/php.ini
 sed -i 's/;opcache.memory_consumption=64/opcache.memory_consumption=128/' /etc/php5/fpm/php.ini
