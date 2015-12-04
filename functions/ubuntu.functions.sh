@@ -10,6 +10,8 @@
 back_title="ISPConfig 3 System Installer"
 
 ubuntu.install_Repos (){
+apt-get update
+apt-get install -y software-properties-common
 #Fix unocodedecodeerror
 sudo locale-gen en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -26,9 +28,9 @@ deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
 deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
 deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse
 deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
-deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main 
 EOF
-
+apt-get update
+add-apt-repository -y ppa:ondrej/php5-5.6
 } #end function ubuntu.install_Repos
 
 ubuntu.install_DisableAppArmor (){
