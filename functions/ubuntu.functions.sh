@@ -164,20 +164,31 @@ echo 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2' | debconf
 #echo 'phpmyadmin      phpmyadmin/dbconfig-reinstall   boolean false' | debconf-set-selections
 #echo 'phpmyadmin      phpmyadmin/dbconfig-install     boolean false' | debconf-set-selections
 
-apt-get install apache2 apache2-doc apache2-utils libapache2-mod-php5 php5 php5-common php5-gd php5-mysqlnd php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp libruby libapache2-mod-python php5-curl php5-intl php5-memcached php5-memcache php5-ps php5-pspell php5-recode php5-sqlite php5-tidy php5-xmlrpc php5-xsl memcached php5-fpm libapache2-mod-fastcgi
+apt-get install apache2 apache2-doc apache2-utils libapache2-mod-php5 php5 php5-fpm php5-common php5-gd php5-mysqlnd php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp libruby libapache2-mod-python php5-curl php5-intl php5-memcached php5-memcache php5-ps php5-pspell php5-recode php5-sqlite php5-tidy php5-xmlrpc php5-xsl memcached php5-fpm libapache2-mod-fastcgi
 
 a2enmod suexec rewrite ssl actions include actions fastcgi alias
 a2enmod dav_fs dav auth_digest
 a2enmod deflate env expires headers mime setenvif
 
-sed -i 's/;opcache.enable=0/opcache.enable=1/' /etc/php5/fpm/php.ini
-sed -i 's/;opcache.enable_cli=0/opcache.enable_cli=1/' /etc/php5/fpm/php.ini
-sed -i 's/;opcache.memory_consumption=64/opcache.memory_consumption=128/' /etc/php5/fpm/php.ini
-sed -i 's/;opcache.interned_strings_buffer=4/opcache.interned_strings_buffer=8/' /etc/php5/fpm/php.ini
-sed -i 's/;opcache.max_accelerated_files=2000/opcache.max_accelerated_files=4000/' /etc/php5/fpm/php.ini
-sed -i 's/;opcache.fast_shutdown=0/opcache.fast_shutdown=1/' /etc/php5/fpm/php.ini
-sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php5/fpm/php.ini
-sed -i 's/;date.timezone =/date.timezone ="Asia\/Ho_Chi_Minh"/' /etc/php5/fpm/php.ini
+#reconfig php5-fpm php.ini without touching it
+cat > /etc/php5/fpm/conf.d/custom.ini <<EOF
+opcache.enable=1
+opcache.enable_cli=1
+opcache.memory_consumption=128
+opcache.interned_strings_buffer=8
+opcache.max_accelerated_files=4000
+opcache.fast_shutdown=1
+cgi.fix_pathinfo=0
+date.timezone ="Asia/Ho_Chi_Minh"
+EOF
+#sed -i 's/;opcache.enable=0/opcache.enable=1/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.enable_cli=0/opcache.enable_cli=1/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.memory_consumption=64/opcache.memory_consumption=128/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.interned_strings_buffer=4/opcache.interned_strings_buffer=8/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.max_accelerated_files=2000/opcache.max_accelerated_files=4000/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.fast_shutdown=0/opcache.fast_shutdown=1/' /etc/php5/fpm/php.ini
+#sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php5/fpm/php.ini
+#sed -i 's/;date.timezone =/date.timezone ="Asia\/Ho_Chi_Minh"/' /etc/php5/fpm/php.ini
 /etc/init.d/php5-fpm reload
 
 cd /tmp
@@ -250,17 +261,25 @@ mv -v GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat
 
 apt-get -y install php5-geoip
 
-#reconfig php.ini without touching it
-#cat > /etc/php5/fpm/pool.d/custom.conf <<EOF
-#EOF
-sed -i 's/;opcache.enable=0/opcache.enable=1/' /etc/php5/fpm/php.ini
-sed -i 's/;opcache.enable_cli=0/opcache.enable_cli=1/' /etc/php5/fpm/php.ini
-sed -i 's/;opcache.memory_consumption=64/opcache.memory_consumption=128/' /etc/php5/fpm/php.ini
-sed -i 's/;opcache.interned_strings_buffer=4/opcache.interned_strings_buffer=8/' /etc/php5/fpm/php.ini
-sed -i 's/;opcache.max_accelerated_files=2000/opcache.max_accelerated_files=4000/' /etc/php5/fpm/php.ini
-sed -i 's/;opcache.fast_shutdown=0/opcache.fast_shutdown=1/' /etc/php5/fpm/php.ini
-sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php5/fpm/php.ini
-sed -i 's/;date.timezone =/date.timezone ="Asia\/Ho_Chi_Minh"/' /etc/php5/fpm/php.ini
+#reconfig php5-fpm php.ini without touching it
+cat > /etc/php5/fpm/conf.d/custom.ini <<EOF
+opcache.enable=1
+opcache.enable_cli=1
+opcache.memory_consumption=128
+opcache.interned_strings_buffer=8
+opcache.max_accelerated_files=4000
+opcache.fast_shutdown=1
+cgi.fix_pathinfo=0
+date.timezone ="Asia/Ho_Chi_Minh"
+EOF
+#sed -i 's/;opcache.enable=0/opcache.enable=1/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.enable_cli=0/opcache.enable_cli=1/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.memory_consumption=64/opcache.memory_consumption=128/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.interned_strings_buffer=4/opcache.interned_strings_buffer=8/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.max_accelerated_files=2000/opcache.max_accelerated_files=4000/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.fast_shutdown=0/opcache.fast_shutdown=1/' /etc/php5/fpm/php.ini
+#sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php5/fpm/php.ini
+#sed -i 's/;date.timezone =/date.timezone ="Asia\/Ho_Chi_Minh"/' /etc/php5/fpm/php.ini
 
 #Enable pagespeed
 cat > /etc/nginx/conf.d/pagespeed.conf <<EOF
@@ -288,13 +307,13 @@ pagespeed PurgeMethod PURGE;
 EOF
 
 #Enable fastcgi_cache
-cat > /etc/nginx/conf.d/fastcgi_cache.conf <<EOF
-fastcgi_cache_path /var/run/nginx-cache levels=1:2 keys_zone=WORDPRESS:100m inactive=60m;
-fastcgi_cache_key "$scheme$request_method$host$request_uri";
-fastcgi_cache_use_stale error timeout invalid_header http_500;
-fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
+#cat > /etc/nginx/conf.d/fastcgi_cache.conf <<EOF
+#fastcgi_cache_path /var/run/nginx-cache levels=1:2 keys_zone=WORDPRESS:100m inactive=60m;
+#fastcgi_cache_key "$scheme$request_method$host$request_uri";
+#fastcgi_cache_use_stale error timeout invalid_header http_500;
+#fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
 #https://rtcamp.com/wordpress-nginx/tutorials/single-site/fastcgi-cache-with-purging/
-EOF
+#EOF
 #Enable open_file_cache
 cat > /etc/nginx/conf.d/open_file_cache.conf <<EOF
 open_file_cache          max=10000 inactive=5m;
