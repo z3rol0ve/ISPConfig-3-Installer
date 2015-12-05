@@ -13,7 +13,7 @@ ubuntu.install_Repos (){
 apt-get update
 apt-get install -y software-properties-common
 #Fix unocodedecodeerror
-sudo locale-gen en_US.UTF-8
+locale-gen en_US.UTF-8
 export LANG=en_US.UTF-8
 #Updates server and install commonly used utilities
 cp /etc/apt/sources.list /etc/apt/sources.list.backup
