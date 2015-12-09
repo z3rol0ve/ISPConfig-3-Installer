@@ -31,6 +31,7 @@ deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe m
 EOF
 apt-get update
 add-apt-repository -y ppa:ondrej/php-7.0
+add-apt-repository -y ppa:nijel/phpmyadmin
 } #end function ubuntu.install_Repos
 
 ubuntu.install_DisableAppArmor (){
