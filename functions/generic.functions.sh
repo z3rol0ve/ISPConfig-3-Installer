@@ -148,7 +148,10 @@ cd /tmp
 wget http://www.ispconfig.org/downloads/ISPConfig-3-stable.tar.gz
 tar xfz ISPConfig-3-stable.tar.gz
 cd /tmp/ispconfig3_install/install/
-#php -q install.php
+sed -i 's/mysql_connect/mysqli_connect/' install.php
+sed -i 's/mysql_error/mysqli_error/' install.php
+
+php -q install.php
 
 } # end function install_ISPConfig
 
