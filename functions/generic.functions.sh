@@ -150,7 +150,7 @@ tar xfz ISPConfig-3-stable.tar.gz
 cd /tmp/ispconfig3_install/install/
 sed -i 's/mysql_connect/mysqli_connect/' install.php
 sed -i 's/mysql_error/mysqli_error/' install.php
-
+sed -i 's/mysql_real_escape_string/mysqli_real_escape_string/' lib/installer_base.lib.php
 php -q install.php
 
 } # end function install_ISPConfig
