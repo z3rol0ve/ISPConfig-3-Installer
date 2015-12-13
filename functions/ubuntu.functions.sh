@@ -244,7 +244,7 @@ update-rc.d -f apache2 remove
 
 service nginx start
 
-apt-get -y install php7.0-fpm php7.0-curl php7.0-gd php7.0-intl php-pear php7.0-imap memcached php7.0-ps php7.0-pspell php7.0-recode php7.0-tidy php7.0-json php7.0-opcache php7.0-pgsql php7.0-sqlite3 php7.0-mysql php7.0-dev php7.0-mcrypt
+apt-get -y install php7.0-fpm php7.0-curl php7.0-gd php7.0-intl php-pear php7.0-imap memcached php7.0-ps php7.0-pspell php7.0-recode php7.0-tidy php7.0-json php7.0-opcache php7.0-pgsql php7.0-sqlite3 php7.0-mysql php7.0-dev
 
 #reconfig php7.0-fpm php.ini without touching it
 cat > /etc/php/7.0/fpm/conf.d/custom.ini <<EOF
