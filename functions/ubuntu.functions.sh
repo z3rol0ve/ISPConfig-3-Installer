@@ -83,7 +83,7 @@ EOF
 apt-get update
 
 apt-get install -y mariadb-server mariadb-client
-apt-get -y install php7.0-cli php7.0-mysql php7.0-mcrypt mcryptphp
+apt-get -y install php7.0-cli php7.0-mysql php7.0-mcrypt mcrypt
 
 #Allow MySQL to listen on all interfaces
 cp /etc/mysql/my.cnf /etc/mysql/my.cnf.backup
