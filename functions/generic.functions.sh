@@ -61,7 +61,7 @@ done
 if [ $sql_server == "MariaDB" ]; then
 while [ "x$maria_version" == "x" ]
 do
-maria_version=$(whiptail --title "MariaDB Version" --backtitle "$back_title" --nocancel --radiolist "Select MariaDB Version" 10 50 2 "5.5" "(default)" ON "10.0" "" OFF 3>&1 1>&2 2>&3)
+maria_version=$(whiptail --title "MariaDB Version" --backtitle "$back_title" --nocancel --radiolist "Select MariaDB Version" 10 50 2 "5.5" "(default)" ON "10.1" "" OFF 3>&1 1>&2 2>&3)
 done
 fi		
 while [ "x$mysql_pass" == "x" ]
