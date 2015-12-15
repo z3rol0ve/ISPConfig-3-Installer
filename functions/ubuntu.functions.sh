@@ -68,7 +68,7 @@ if [ $maria_version == "5.5" ]; then
     add-apt-repository "deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/5.5/ubuntu $DISTRIBUTION_VERSION main"
 fi
 if [ $maria_version == "10.0" ]; then
-    add-apt-repository "deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu $DISTRIBUTION_VERSION main"
+    add-apt-repository "deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu $DISTRIBUTION_VERSION main"
 fi
 
 echo "mysql-server mysql-server/root_password password $mysql_pass" | debconf-set-selections
