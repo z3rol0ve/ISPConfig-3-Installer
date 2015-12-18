@@ -30,8 +30,7 @@ deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe m
 deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
 EOF
 apt-get update
-add-apt-repository -y ppa:ondrej/php-7.0
-add-apt-repository -y ppa:nijel/phpmyadmin
+add-apt-repository -y ppa:ondrej/php5-5.6
 } #end function ubuntu.install_Repos
 
 ubuntu.install_DisableAppArmor (){
@@ -49,7 +48,7 @@ echo "mysql-server-5.6 mysql-server/root_password password $mysql_pass" | debcon
 echo "mysql-server-5.6 mysql-server/root_password_again password $mysql_pass" | debconf-set-selections
 
 apt-get -y install mysql-client mysql-server
-apt-get -y install php7.0-cli php7.0-mysql php7.0-mcrypt mcrypt
+apt-get -y install php5-cli php5-mysqlnd php5-mcrypt mcrypt
     
 #Allow MySQL to listen on all interfaces
 cp /etc/mysql/my.cnf /etc/mysql/my.cnf.backup
@@ -83,7 +82,7 @@ EOF
 apt-get update
 
 apt-get install -y mariadb-server mariadb-client
-apt-get -y install php7.0-cli php7.0-mysql php7.0-mcrypt mcrypt
+apt-get -y install php5-cli php5-mysqlnd php5-mcrypt mcrypt
 
 #Allow MySQL to listen on all interfaces
 cp /etc/mysql/my.cnf /etc/mysql/my.cnf.backup
@@ -158,21 +157,21 @@ update-rc.d -f spamassassin remove
 
 ubuntu.install_Apache (){
 
-#Install Apache2, PHP7, phpMyAdmin, FCGI, suExec, Pear, And mcrypt
+#Install Apache2, PHP5, phpMyAdmin, FCGI, suExec, Pear, And mcrypt
 
 echo 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2' | debconf-set-selections
 #BELOW ARE STILL NOT WORKING
 #echo 'phpmyadmin      phpmyadmin/dbconfig-reinstall   boolean false' | debconf-set-selections
 #echo 'phpmyadmin      phpmyadmin/dbconfig-install     boolean false' | debconf-set-selections
 
-apt-get install apache2 apache2-doc apache2-utils libapache2-mod-php7.0 php7.0 php7.0-fpm php7.0-common php7.0-gd php7.0-mysql php7.0-imap phpmyadmin php7.0-cli php7.0-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php7.0-mcrypt mcrypt libapache2-mod-suphp libruby libapache2-mod-python php7.0-curl php7.0-intl php7.0-ps php7.0-pspell php7.0-recode php7.0-sqlite php7.0-tidy php7.0-xmlrpc php7.0-xsl memcached php7.0-fpm libapache2-mod-fastcgi
+apt-get install apache2 apache2-doc apache2-utils libapache2-mod-php5 php5 php5-fpm php5-common php5-gd php5-mysqlnd php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp libruby libapache2-mod-python php5-curl php5-intl php5-memcached php5-memcache php5-ps php5-pspell php5-recode php5-sqlite php5-tidy php5-xmlrpc php5-xsl memcached php5-fpm libapache2-mod-fastcgi
 
 a2enmod suexec rewrite ssl actions include actions fastcgi alias
 a2enmod dav_fs dav auth_digest
 a2enmod deflate env expires headers mime setenvif
 
-#reconfig php7.0-fpm php.ini without touching it
-cat > /etc/php/7.0/fpm/conf.d/custom.ini <<EOF
+#reconfig php5-fpm php.ini without touching it
+cat > /etc/php5/fpm/conf.d/custom.ini <<EOF
 opcache.enable=1
 opcache.enable_cli=1
 opcache.memory_consumption=128
@@ -182,7 +181,15 @@ opcache.fast_shutdown=1
 cgi.fix_pathinfo=0
 date.timezone ="Asia/Ho_Chi_Minh"
 EOF
-/etc/init.d/php7.0-fpm reload
+#sed -i 's/;opcache.enable=0/opcache.enable=1/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.enable_cli=0/opcache.enable_cli=1/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.memory_consumption=64/opcache.memory_consumption=128/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.interned_strings_buffer=4/opcache.interned_strings_buffer=8/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.max_accelerated_files=2000/opcache.max_accelerated_files=4000/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.fast_shutdown=0/opcache.fast_shutdown=1/' /etc/php5/fpm/php.ini
+#sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php5/fpm/php.ini
+#sed -i 's/;date.timezone =/date.timezone ="Asia\/Ho_Chi_Minh"/' /etc/php5/fpm/php.ini
+/etc/init.d/php5-fpm reload
 
 cd /tmp
 if [ $(uname -i) = "x86_64" ]; then
@@ -215,7 +222,7 @@ cat > /etc/apache2/mods-available/suphp.conf <<EOF
     </Directory>
 
 # # Use a specific php config file (a dir which contains a php.ini file)
-#       suPHP_ConfigPath /etc/php/7.0/cgi/suphp/
+#       suPHP_ConfigPath /etc/php5/cgi/suphp/
 # # Tells mod_suphp NOT to handle requests with the type <mime-type>.
 #       suPHP_RemoveHandler <mime-type>
 </IfModule>
@@ -232,7 +239,7 @@ ubuntu.install_NginX (){
 
 add-apt-repository -y ppa:rtcamp/nginx
 apt-get update
-#Install NginX, PHP7.0, phpMyAdmin, FCGI, suExec, Pear, And mcrypt
+#Install NginX, PHP5, phpMyAdmin, FCGI, suExec, Pear, And mcrypt
 
 echo 'phpmyadmin      phpmyadmin/reconfigure-webserver        multiselect' | debconf-set-selections
 #echo 'phpmyadmin      phpmyadmin/dbconfig-install     boolean false' | debconf-set-selections
@@ -244,10 +251,18 @@ update-rc.d -f apache2 remove
 
 service nginx start
 
-apt-get -y install php7.0-fpm php7.0-curl php7.0-gd php7.0-intl php-pear php7.0-imap memcached php7.0-ps php7.0-pspell php7.0-recode php7.0-tidy php7.0-json php7.0-opcache php7.0-pgsql php7.0-sqlite3 php7.0-mysql php7.0-dev php7.0-mcrypt mcrypt
+apt-get -y install php5-fpm php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-memcached php5-memcache memcached php5-ps php5-pspell php5-recode php5-sqlite php5-tidy php5-xmlrpc php5-xsl
 
-#reconfig php7.0-fpm php.ini without touching it
-cat > /etc/php/7.0/fpm/conf.d/custom.ini <<EOF
+#install geoip module
+wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
+gunzip GeoLiteCity.dat.gz
+mkdir -v /usr/share/GeoIP
+mv -v GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat
+
+apt-get -y install php5-geoip
+
+#reconfig php5-fpm php.ini without touching it
+cat > /etc/php5/fpm/conf.d/custom.ini <<EOF
 opcache.enable=1
 opcache.enable_cli=1
 opcache.memory_consumption=128
@@ -257,6 +272,14 @@ opcache.fast_shutdown=1
 cgi.fix_pathinfo=0
 date.timezone ="Asia/Ho_Chi_Minh"
 EOF
+#sed -i 's/;opcache.enable=0/opcache.enable=1/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.enable_cli=0/opcache.enable_cli=1/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.memory_consumption=64/opcache.memory_consumption=128/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.interned_strings_buffer=4/opcache.interned_strings_buffer=8/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.max_accelerated_files=2000/opcache.max_accelerated_files=4000/' /etc/php5/fpm/php.ini
+#sed -i 's/;opcache.fast_shutdown=0/opcache.fast_shutdown=1/' /etc/php5/fpm/php.ini
+#sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php5/fpm/php.ini
+#sed -i 's/;date.timezone =/date.timezone ="Asia\/Ho_Chi_Minh"/' /etc/php5/fpm/php.ini
 
 #Enable pagespeed
 cat > /etc/nginx/conf.d/pagespeed.conf <<EOF
@@ -299,7 +322,7 @@ open_file_cache_min_uses 1;
 open_file_cache_errors   on;
 EOF
 #PHP Configuration Stuff Goes Here
-/etc/init.d/php7.0-fpm reload
+/etc/init.d/php5-fpm reload
 apt-get -y install fcgiwrap
 
 apt-get -y install phpmyadmin
@@ -309,7 +332,7 @@ service apache2 stop
 update-rc.d -f apache2 remove
 service nginx start
 
-/etc/init.d/php7.0-fpm restart
+/etc/init.d/php5-fpm restart
 
 } #end function ubuntu.install_NginX
 
