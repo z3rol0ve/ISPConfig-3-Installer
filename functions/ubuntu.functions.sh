@@ -242,7 +242,7 @@ apt-get update
 #Install NginX, PHP5, phpMyAdmin, FCGI, suExec, Pear, And mcrypt
 
 echo 'phpmyadmin      phpmyadmin/reconfigure-webserver        multiselect' | debconf-set-selections
-echo 'phpmyadmin      phpmyadmin/dbconfig-install     boolean false' | debconf-set-selections
+#echo 'phpmyadmin      phpmyadmin/dbconfig-install     boolean false' | debconf-set-selections
 
 apt-get -y install nginx-custom
 
