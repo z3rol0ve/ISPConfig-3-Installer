@@ -64,10 +64,10 @@ apt-get install -y software-properties-common python-software-properties
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
 
 if [ $maria_version == "5.5" ]; then
-    add-apt-repository "deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/5.5/ubuntu $DISTRIBUTION_VERSION main"
+    add-apt-repository "deb http://mirrors.n-ix.net/mariadb/repo/5.5/ubuntu $DISTRIBUTION_VERSION main"
 fi
 if [ $maria_version == "10.0" ]; then
-    add-apt-repository "deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu $DISTRIBUTION_VERSION main"
+    add-apt-repository "deb http://mirrors.n-ix.net/mariadb/repo/10.1/ubuntu $DISTRIBUTION_VERSION main"
 fi
 
 echo "mysql-server mysql-server/root_password password $mysql_pass" | debconf-set-selections
