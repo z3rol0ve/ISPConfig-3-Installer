@@ -61,7 +61,7 @@ done
 if [ $sql_server == "MariaDB" ]; then
 while [ "x$maria_version" == "x" ]
 do
-maria_version=$(whiptail --title "MariaDB Version" --backtitle "$back_title" --nocancel --radiolist "Select MariaDB Version" 10 50 2 "5.5" "(default)" ON "10.1" "" OFF 3>&1 1>&2 2>&3)
+maria_version=$(whiptail --title "MariaDB Version" --backtitle "$back_title" --nocancel --radiolist "Select MariaDB Version" 10 50 2 "5.5" "(default)" ON "10.0" "" OFF 3>&1 1>&2 2>&3)
 done
 fi		
 while [ "x$mysql_pass" == "x" ]
@@ -148,12 +148,8 @@ cd /tmp
 wget http://www.ispconfig.org/downloads/ISPConfig-3-stable.tar.gz
 tar xfz ISPConfig-3-stable.tar.gz
 cd /tmp/ispconfig3_install/install/
-sed -i 's/mysql_connect/mysqli_connect/' install.php
-sed -i 's/mysql_error/mysqli_error/' install.php
-sed -i 's/mysql_real_escape_string/mysqli_real_escape_string/' lib/installer_base.lib.php
 php -q install.php
 
 } # end function install_ISPConfig
-
 
 
