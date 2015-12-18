@@ -145,9 +145,12 @@ install_ISPConfig (){
 	
 #Install ISPConfig 3
 cd /tmp
-wget http://www.ispconfig.org/downloads/ISPConfig-3-stable.tar.gz
-tar xfz ISPConfig-3-stable.tar.gz
-cd /tmp/ispconfig3_install/install/
+#wget http://www.ispconfig.org/downloads/ISPConfig-3-stable.tar.gz
+#tar xfz ISPConfig-3-stable.tar.gz
+#cd /tmp/ispconfig3_install/install/
+wget -O ispconfig3-dev.tar.gz "http://git.ispconfig.org/ispconfig/ispconfig3/repository/archive.tar.gz?ref=master"
+tar xzf ispconfig3-dev.tar.gz
+cd ispconfig3-master*/install
 php -q install.php
 
 } # end function install_ISPConfig
