@@ -271,6 +271,7 @@ opcache.max_accelerated_files=4000
 opcache.fast_shutdown=1
 cgi.fix_pathinfo=0
 date.timezone ="Asia/Ho_Chi_Minh"
+display_errors=on
 EOF
 #sed -i 's/;opcache.enable=0/opcache.enable=1/' /etc/php5/fpm/php.ini
 #sed -i 's/;opcache.enable_cli=0/opcache.enable_cli=1/' /etc/php5/fpm/php.ini
