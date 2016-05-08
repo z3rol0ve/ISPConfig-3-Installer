@@ -240,7 +240,7 @@ update-rc.d -f apache2 remove
 
 service nginx start
 
-apt-get -y install php7.0 php7.0-curl php7.0-gd php7.0-intl php-pear php7.0-imap php-memcached php-memcache memcached php7.0-pspell php7.0-recode php7.0-sqlite3 php7.0-tidy php7.0-xmlrpc php7.0-xsl php7.0-mbstring php7.0-mcrypt mcrypt
+apt-get -y install php7.0 php7.0-curl php7.0-gd php7.0-intl php-pear php7.0-imap php-memcached php-memcache memcached php7.0-pspell php7.0-recode php7.0-sqlite3 php7.0-tidy php7.0-xmlrpc php7.0-xsl php7.0-mbstring php7.0-mcrypt mcrypt php7.0-mysql
 
 #install geoip module
 wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
