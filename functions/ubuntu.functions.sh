@@ -29,8 +29,8 @@ deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe mul
 deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse
 deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
 EOF
+add-apt-repository -y ppa:ondrej/php
 apt-get update
-add-apt-repository -y ppa:ondrej/php5-5.6
 } #end function ubuntu.install_Repos
 
 ubuntu.install_DisableAppArmor (){
@@ -82,12 +82,12 @@ EOF
 apt-get update
 
 apt-get install -y mariadb-server mariadb-client
-apt-get -y install php5-cli php5-mysqlnd php5-mcrypt mcrypt
+apt-get -y install php7.0 php7.0-mysql php7.0-mcrypt mcrypt
 
 #Allow MySQL to listen on all interfaces
 cp /etc/mysql/my.cnf /etc/mysql/my.cnf.backup
 sed -i 's/bind-address/#bind-address/' /etc/mysql/my.cnf
-/etc/init.d/mysql restart
+service mysql restart
 
 } #end function ubuntu.install_MariaDB
 
@@ -251,7 +251,7 @@ update-rc.d -f apache2 remove
 
 service nginx start
 
-apt-get -y install php5-fpm php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-memcached php5-memcache memcached php5-ps php5-pspell php5-recode php5-sqlite php5-tidy php5-xmlrpc php5-xsl
+apt-get -y install php7.0 php7.0-curl php7.0-gd php7.0-intl php-pear php7.0-imap php-memcached php-memcache memcached php7.0-pspell php7.0-recode php7.0-sqlite3 php7.0-tidy php7.0-xmlrpc php7.0-xsl php7.0-mbstring
 
 #install geoip module
 wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
@@ -259,10 +259,10 @@ gunzip GeoLiteCity.dat.gz
 mkdir -v /usr/share/GeoIP
 mv -v GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat
 
-apt-get -y install php5-geoip
+apt-get -y install php-geoip
 
 #reconfig php5-fpm php.ini without touching it
-cat > /etc/php5/fpm/conf.d/custom.ini <<EOF
+cat > /etc/php/7.0/fpm/conf.d/custom.ini <<EOF
 opcache.enable=1
 opcache.enable_cli=1
 opcache.memory_consumption=128
@@ -323,17 +323,17 @@ open_file_cache_min_uses 1;
 open_file_cache_errors   on;
 EOF
 #PHP Configuration Stuff Goes Here
-/etc/init.d/php5-fpm reload
+service php7.0-fpm reload
 apt-get -y install fcgiwrap
 
-apt-get -y install phpmyadmin
+#apt-get -y install phpmyadmin
 
 #Remove the Apache2 Stuff for NginX
 service apache2 stop
 update-rc.d -f apache2 remove
 service nginx start
 
-/etc/init.d/php5-fpm restart
+service php7.0-fpm restart
 
 } #end function ubuntu.install_NginX
 
