@@ -47,9 +47,7 @@ for file in $LIBRARYPATH/platforms/*.$DISTRIBUTION.sh; do
 done
 
 # Load Functions (Distribution Specific)
-if [ $DISTRIBUTION == "debian" ]; then
-	source $FUNCTIONPATH/$DISTRIBUTION.functions.sh
-elif [ $DISTRIBUTION == "ubuntu" ]; then
+if [ $DISTRIBUTION == "ubuntu" ]; then
 	source $FUNCTIONPATH/$DISTRIBUTION.functions.sh
 fi
 
