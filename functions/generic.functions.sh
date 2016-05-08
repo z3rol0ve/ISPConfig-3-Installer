@@ -56,12 +56,14 @@ if (whiptail --title "Install Mail Server" --backtitle "$back_title" --yesno "In
 fi
 while [ "x$sql_server" == "x" ]
 do
-sql_server=$(whiptail --title "SQL Server" --backtitle "$back_title" --nocancel --radiolist "Select SQL Server Software" 10 50 2 "MySQL" "(default)" ON "MariaDB" "" OFF 3>&1 1>&2 2>&3)
+#sql_server=$(whiptail --title "SQL Server" --backtitle "$back_title" --nocancel --radiolist "Select SQL Server Software" 10 50 2 "MySQL" "" ON "MariaDB" "(default)" OFF 3>&1 1>&2 2>&3)
+sql_server="MariaDB";
 done
 if [ $sql_server == "MariaDB" ]; then
 while [ "x$maria_version" == "x" ]
 do
-maria_version=$(whiptail --title "MariaDB Version" --backtitle "$back_title" --nocancel --radiolist "Select MariaDB Version" 10 50 2 "5.5" "(default)" ON "10.0" "" OFF 3>&1 1>&2 2>&3)
+maria_version=$(whiptail --title "MariaDB Version" --backtitle "$back_title" --nocancel --radiolist "Select MariaDB Version" 10 50 2 "5.5" "" ON "10.0" "(default)" OFF 3>&1 1>&2 2>&3)
+#maria_version="10.0";
 done
 fi		
 while [ "x$mysql_pass" == "x" ]
@@ -128,8 +130,8 @@ sed -i "s/${serverIP}.*/${serverIP} ${HOSTNAMEFQDN} ${HOSTNAMESHORT}/" /etc/host
 echo "$HOSTNAMEFQDN" > /etc/hostname
 /etc/init.d/hostname.sh start >/dev/null 2>&1
 
-apt-get update
-apt-get -y upgrade
+package_update
+package_upgrade
 apt-get install -y dialog nano cron unzip binutils sudo bzip2 zip e2fsprogs libss2
 
 echo "dash dash/sh boolean false" | debconf-set-selections
@@ -145,12 +147,10 @@ install_ISPConfig (){
 	
 #Install ISPConfig 3
 cd /tmp
-wget http://www.ispconfig.org/downloads/ISPConfig-3-stable.tar.gz
-tar xfz ISPConfig-3-stable.tar.gz
-cd /tmp/ispconfig3_install/install/
-#wget -O ispconfig3-dev.tar.gz "http://git.ispconfig.org/ispconfig/ispconfig3/repository/archive.tar.gz?ref=master"
-#tar xzf ispconfig3-dev.tar.gz
-#cd ispconfig3-master*/install
+cd /tmp
+wget http://www.ispconfig.org/downloads/ISPConfig-3.1b1.tar.gz
+tar xvfz ISPConfig-3.1b1.tar.gz
+cd ispconfig3_install/install
 php -q install.php
 
 } # end function install_ISPConfig
