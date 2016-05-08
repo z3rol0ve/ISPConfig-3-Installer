@@ -147,7 +147,6 @@ install_ISPConfig (){
 	
 #Install ISPConfig 3
 cd /tmp
-cd /tmp
 wget http://www.ispconfig.org/downloads/ISPConfig-3.1b1.tar.gz
 tar xvfz ISPConfig-3.1b1.tar.gz
 cd ispconfig3_install/install
