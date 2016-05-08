@@ -17,18 +17,13 @@ locale-gen en_US.UTF-8
 export LANG=en_US.UTF-8
 #Updates server and install commonly used utilities
 cp /etc/apt/sources.list /etc/apt/sources.list.backup
-#cat > /etc/apt/sources.list <<EOF
-#deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION main restricted universe multiverse
-#deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-updates main restricted universe multiverse
-#deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-backports main restricted universe multiverse
-#deb mirror://mirrors.ubuntu.com/mirrors.txt $DISTRIBUTION_VERSION-security main restricted universe multiverse
-#EOF
 cat > /etc/apt/sources.list <<EOF
-deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse
-deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu $DISTRIBUTION_VERSION main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu $DISTRIBUTION_VERSION-updates main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu $DISTRIBUTION_VERSION-backports main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu $DISTRIBUTION_VERSION-security main restricted universe multiverse
 EOF
+#add support php7
 add-apt-repository -y ppa:ondrej/php
 apt-get update
 } #end function ubuntu.install_Repos
@@ -42,19 +37,19 @@ apt-get -y remove apparmor apparmor-utils
 } #end function ubuntu.install_DisableAppArmor
 
 ubuntu.install_MySQL (){
-
+#No longer support mysql in favour of mariadb
 #Install MySQL
-echo "mysql-server-5.6 mysql-server/root_password password $mysql_pass" | debconf-set-selections
-echo "mysql-server-5.6 mysql-server/root_password_again password $mysql_pass" | debconf-set-selections
+#echo "mysql-server-5.6 mysql-server/root_password password $mysql_pass" | debconf-set-selections
+#echo "mysql-server-5.6 mysql-server/root_password_again password $mysql_pass" | debconf-set-selections
 
-apt-get -y install mysql-client mysql-server
-apt-get -y install php5-cli php5-mysqlnd php5-mcrypt mcrypt
+#apt-get -y install mysql-client mysql-server
+#apt-get -y install php5-cli php5-mysqlnd php5-mcrypt mcrypt
     
 #Allow MySQL to listen on all interfaces
-cp /etc/mysql/my.cnf /etc/mysql/my.cnf.backup
-sed -i 's/bind-address/#bind-address/' /etc/mysql/my.cnf
+#cp /etc/mysql/my.cnf /etc/mysql/my.cnf.backup
+#sed -i 's/bind-address/#bind-address/' /etc/mysql/my.cnf
 
-service mysql restart
+#service mysql restart
 
 } #end function ubuntu.install_MySQL
 
@@ -62,10 +57,10 @@ ubuntu.install_MariaDB (){
 
 apt-get install -y software-properties-common python-software-properties
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-
-if [ $maria_version == "5.5" ]; then
-    add-apt-repository "deb http://mirrors.n-ix.net/mariadb/repo/5.5/ubuntu $DISTRIBUTION_VERSION main"
-fi
+#remove 5.5 support in favour of 10.0
+#if [ $maria_version == "5.5" ]; then
+#    add-apt-repository "deb http://mirrors.n-ix.net/mariadb/repo/5.5/ubuntu $DISTRIBUTION_VERSION main"
+#fi
 if [ $maria_version == "10.0" ]; then
     add-apt-repository "deb http://mirrors.n-ix.net/mariadb/repo/10.0/ubuntu $DISTRIBUTION_VERSION main"
 fi
@@ -73,16 +68,10 @@ fi
 echo "mysql-server mysql-server/root_password password $mysql_pass" | debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password $mysql_pass" | debconf-set-selections
 
-cat > /etc/apt/preferences.d/mariadb.pref <<EOF
-Package: *
-Pin: release o=MariaDB
-Pin-Priority: 1000
-EOF
-
 apt-get update
 
 apt-get install -y mariadb-server mariadb-client
-apt-get -y install php7.0 php7.0-mysql php7.0-mcrypt mcrypt
+#apt-get -y install php7.0 php7.0-mysql php7.0-mcrypt mcrypt
 
 #Allow MySQL to listen on all interfaces
 cp /etc/mysql/my.cnf /etc/mysql/my.cnf.backup
@@ -240,8 +229,8 @@ ubuntu.install_NginX (){
 add-apt-repository -y ppa:rtcamp/nginx
 apt-get update
 #Install NginX, PHP5, phpMyAdmin, FCGI, suExec, Pear, And mcrypt
-
-echo 'phpmyadmin      phpmyadmin/reconfigure-webserver        multiselect' | debconf-set-selections
+#disable installing phpmyadmin due to php5 dependency
+#echo 'phpmyadmin      phpmyadmin/reconfigure-webserver        multiselect' | debconf-set-selections
 #echo 'phpmyadmin      phpmyadmin/dbconfig-install     boolean false' | debconf-set-selections
 
 apt-get -y install nginx-custom
@@ -251,7 +240,7 @@ update-rc.d -f apache2 remove
 
 service nginx start
 
-apt-get -y install php7.0 php7.0-curl php7.0-gd php7.0-intl php-pear php7.0-imap php-memcached php-memcache memcached php7.0-pspell php7.0-recode php7.0-sqlite3 php7.0-tidy php7.0-xmlrpc php7.0-xsl php7.0-mbstring
+apt-get -y install php7.0 php7.0-curl php7.0-gd php7.0-intl php-pear php7.0-imap php-memcached php-memcache memcached php7.0-pspell php7.0-recode php7.0-sqlite3 php7.0-tidy php7.0-xmlrpc php7.0-xsl php7.0-mbstring php7.0-mcrypt mcrypt
 
 #install geoip module
 wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
