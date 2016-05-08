@@ -50,7 +50,7 @@ ubuntu.install_MySQL (){
 #sed -i 's/bind-address/#bind-address/' /etc/mysql/my.cnf
 
 #service mysql restart
-
+error "Longer support mysql"
 } #end function ubuntu.install_MySQL
 
 ubuntu.install_MariaDB (){
