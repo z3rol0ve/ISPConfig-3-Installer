@@ -24,8 +24,10 @@ deb http://archive.ubuntu.com/ubuntu $DISTRIBUTION_VERSION-backports main restri
 deb http://security.ubuntu.com/ubuntu $DISTRIBUTION_VERSION-security main restricted universe multiverse
 EOF
 #add support php7
+if [ $DISTRIBUTION_VERSION = "trusty" ]; then
 add-apt-repository -y ppa:ondrej/php
 apt-get update
+fi;
 } #end function ubuntu.install_Repos
 
 ubuntu.install_DisableAppArmor (){
