@@ -93,12 +93,12 @@ EOF
         
         #Pick SQL Version
         if [ "$SQL_SERVER" == "MariaDB" ]; then
-            while [ "$MARIADB_VERSION" == "" ]; do
-                MARIADB_VERSION=$(whiptail --title "$SQL_SERVER Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select $SQL_SERVER Version" 10 50 3 "5.5" "" OFF "10.0" "(default)" ON "10.1" "" OFF 3>&1 1>&2 2>&3);
+            while [ "$SQL_VERSION" == "" ]; do
+                SQL_VERSION=$(whiptail --title "$SQL_SERVER Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select $SQL_SERVER Version" 10 50 3 "5.5" "" OFF "10.0" "(default)" ON "10.1" "" OFF 3>&1 1>&2 2>&3);
             done;
         elif [ "$SQL_SERVER" == "MySQL" ]; then
-            while [ "$MYSQL_VERSION" == "" ]; do
-                MYSQL_VERSION=$(whiptail --title "$SQL_SERVER Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select $SQL_SERVER Version" 10 50 3 "5.5" "" OFF "5.6" "(default)" ON "5.7" "" OFF 3>&1 1>&2 2>&3);
+            while [ "$SQL_VERSION" == "" ]; do
+                SQL_VERSION=$(whiptail --title "$SQL_SERVER Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select $SQL_SERVER Version" 10 50 3 "5.5" "" OFF "5.6" "(default)" ON "5.7" "" OFF 3>&1 1>&2 2>&3);
             done;
         fi;
         
@@ -142,7 +142,7 @@ EOF
         fi
         
         ###### CONFIRMATION BEFORE PROCEED TO INSTALLATION
-        if (whiptail --title "Installation Confirmation" --backtitle "$whiptail_title" --yesno "Server IP: $SERVER_IP \nShort Hostname: $HOSTNAME_SHORT \nFQDN: $HOSTNAME_LONG" 20 50) then
+        if (whiptail --title "Installation Confirmation" --backtitle "$whiptail_title" --yesno "Server IP: $SERVER_IP \nShort Hostname: $HOSTNAME_SHORT \nFQDN: $HOSTNAME_LONG \nSQL Server: $SQL_SERVER v$SQL_VERSION - Root password: $SQL_PASS \nWeb Server: $install_web_server | $WEB_SERVER \nFTP Server: $install_ftp_server \nJailkit: $install_jailkit" 20 50) then
             echo "GOOD";
         else
             echo "Script exiting...";
