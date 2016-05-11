@@ -143,10 +143,10 @@ EOF
         
         ###### CONFIRMATION BEFORE PROCEED TO INSTALLATION
         if (whiptail --title "Installation Confirmation" --backtitle "$whiptail_title" --yesno "Server IP: $SERVER_IP \nShort Hostname: $HOSTNAME_SHORT" 50 50) then
-            install_jailkit=true;
+            echo "GOOD";
         else
             echo "Script exiting...";
-        	exit 1;
+            exit 1;
         fi
     fi;
 else
