@@ -32,8 +32,8 @@ HOSTNAME_FULL="";
 #if lsb_release command exist do
 if [ $(command -v lsb_release) ]; then
     if [ $(lsb_release -is) == "Ubuntu" ]; then
-    DISTRIBUTION=ubuntu;
-    DISTRIBUTION_VERSION=$(lsb_release -sc);
+        DISTRIBUTION=ubuntu;
+        DISTRIBUTION_VERSION=$(lsb_release -sc);
     fi;
 fi;
 ###### GETTING SERVER MAIN IP
@@ -51,8 +51,18 @@ whiptail_title="ISPConfig Installer";
 if [ $DISTRIBUTION == "ubuntu" ] && [ $DISTRIBUTION_VERSION = "xenial" ]; then
     #if apt-get command exist do
     if [ $(command -v apt-get) ]; then
-        ########Question Procedure
+    	##### UPDATE SOURCES LIST
+        locale-gen en_US.UTF-8
+        export LANG=en_US.UTF-8
+        cp /etc/apt/sources.list /etc/apt/sources.list.backup
+        cat > /etc/apt/sources.list <<EOF
+deb http://archive.ubuntu.com/ubuntu $DISTRIBUTION_VERSION main restricted
+deb http://archive.ubuntu.com/ubuntu $DISTRIBUTION_VERSION-updates main restricted
+deb http://archive.ubuntu.com/ubuntu $DISTRIBUTION_VERSION-security main restricted
+EOF
         apt-get update;
+        
+        ########Question Procedure
         apt-get install whiptail;
         #if SERVER_IP is defined do confirmation
         if [ "$SERVER_IP" != "" ]; then
@@ -80,16 +90,23 @@ if [ $DISTRIBUTION == "ubuntu" ] && [ $DISTRIBUTION_VERSION = "xenial" ]; then
         while [ "$SQL_SERVER" == "" ]; do
             SQL_SERVER=$(whiptail --title "SQL Server" --backtitle "$whiptail_title" --nocancel --radiolist "Select SQL Server Software" 10 50 2 "MariaDB" "(default)" ON "MySQL" "" OFF 3>&1 1>&2 2>&3);
         done;
-    
+        
+        #Pick SQL Version
         if [ "$SQL_SERVER" == "MariaDB" ]; then
             while [ "$MARIADB_VERSION" == "" ]; do
-                MARIADB_VERSION=$(whiptail --title "MariaDB Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select MariaDB Version" 10 50 3 "5.5" "" OFF "10.0" "(default)" ON "10.1" "" OFF 3>&1 1>&2 2>&3);
+                MARIADB_VERSION=$(whiptail --title "$SQL_SERVER Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select $SQL_SERVER Version" 10 50 3 "5.5" "" OFF "10.0" "(default)" ON "10.1" "" OFF 3>&1 1>&2 2>&3);
             done;
         elif [ "$SQL_SERVER" == "MySQL" ]; then
             while [ "$MYSQL_VERSION" == "" ]; do
-                MYSQL_VERSION=$(whiptail --title "MariaDB Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select MySQL Version" 10 50 3 "5.5" "" OFF "5.6" "(default)" ON "5.7" "" OFF 3>&1 1>&2 2>&3);
+                MYSQL_VERSION=$(whiptail --title "$SQL_SERVER Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select $SQL_SERVER Version" 10 50 3 "5.5" "" OFF "5.6" "(default)" ON "5.7" "" OFF 3>&1 1>&2 2>&3);
             done;
         fi;
+        
+        #Set SQL ROOT PASSWORD
+        while [ "$SQL_PASS" == "" ]
+        do
+            SQL_PASS=$(whiptail --title "$SQL_SERVER Root Password" --backtitle "$whiptail_title" --inputbox "Please specify a $SQL_SERVER Root Password" --nocancel 10 50 3>&1 1>&2 2>&3)
+        done
     
         #install web server?
         if (whiptail --title "Install Web Server" --backtitle "$whiptail_title" --yesno "Install Web Server?" 10 50) then
@@ -100,6 +117,37 @@ if [ $DISTRIBUTION == "ubuntu" ] && [ $DISTRIBUTION_VERSION = "xenial" ]; then
         else
             install_web_server=false;
         fi;
+        
+        #install ftp server?
+        if (whiptail --title "Install FTP Server" --backtitle "$whiptail_title" --yesno "Install FTP Server?" 10 50) then
+            install_ftp_server=true;
+            install_quota=true;
+        else
+            install_ftp_server=false;
+            install_quota=false;
+        fi
+        
+        #install DNS server?
+        if (whiptail --title "Install DNS Server" --backtitle "$whiptail_title" --yesno "Install DNS Server?" 10 50) then
+            install_dns_server=true;
+        else
+            install_dns_server=false;
+        fi
+        
+        #install Jailkit?
+        if (whiptail --title "Install Jailkit" --backtitle "$whiptail_title" --yesno "Setup User Jailkits?" 10 50) then
+            install_jailkit=true;
+        else
+            install_jailkit=false;
+        fi
+        
+        ###### CONFIRMATION BEFORE PROCEED TO INSTALLATION
+        if (whiptail --title "Installation Confirmation" --backtitle "$whiptail_title" --yesno "Server IP: $SERVER_IP \nShort Hostname: $HOSTNAME_SHORT" 50 50) then
+            install_jailkit=true;
+        else
+            echo "Script exiting...";
+        	exit 1;
+        fi
     fi;
 else
 	echo "Error: Your OS is not supported.";
