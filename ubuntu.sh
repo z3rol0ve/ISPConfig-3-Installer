@@ -190,8 +190,9 @@ display_errors=on
 EOF
                     service php7.0-fpm restart
                     
-                elif [ "" == "Apache" ]; then
-                    apt-get -y install apache2
+                elif [ "$WEB_SERVER" == "Apache" ]; then
+                    echo "NOT YET SUPPORT"
+                    #apt-get -y install apache2
                 fi;
                 #Install Stats
                 apt-get -y install vlogger webalizer awstats geoip-database libclass-dbi-mysql-perl
