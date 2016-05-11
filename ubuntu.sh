@@ -142,7 +142,7 @@ EOF
         fi
         
         ###### CONFIRMATION BEFORE PROCEED TO INSTALLATION
-        if (whiptail --title "Installation Confirmation" --backtitle "$whiptail_title" --yesno "Server IP: $SERVER_IP \nShort Hostname: $HOSTNAME_SHORT" 20 50) then
+        if (whiptail --title "Installation Confirmation" --backtitle "$whiptail_title" --yesno "Server IP: $SERVER_IP \nShort Hostname: $HOSTNAME_SHORT \nFQDN: $HOSTNAME_LONG" 20 50) then
             echo "GOOD";
         else
             echo "Script exiting...";
