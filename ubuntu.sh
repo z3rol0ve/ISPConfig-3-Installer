@@ -158,6 +158,9 @@ EOF
             		apt-get install -y mariadb-server mariadb-client
             		cp /etc/mysql/my.cnf /etc/mysql/my.cnf.backup
             		sed -i 's/bind-address/#bind-address/' /etc/mysql/my.cnf
+            		if [ "$SQL_VERSION" == "10.1" ]; then
+            			sed -i 's/\[mysqld\]/\[mysqld\]\nsql-mode="NO_ENGINE_SUBSTITUTION"/' /etc/mysql/my.cnf
+            		fi;
             		service mysql restart
             	fi;
         	elif [ "$SQL_SERVER" == "MySQL" ]; then
@@ -248,6 +251,9 @@ EOF
             
             #Install Fail2ban
             apt-get install -y fail2ban
+            
+            #Install Ubuntu firewall
+            apt-get install -y ufw
             
             #Install ISPConfig 3
             echo "################# INSTALL ISPConfig ##################\n"
