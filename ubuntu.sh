@@ -52,62 +52,7 @@ whiptail_title="ISPConfig Installer";
 ####### MAIN INSTALLATION
 if [ $DISTRIBUTION == "ubuntu" ] && [ $DISTRIBUTION_VERSION = "xenial" ]; then
 	#if apt-get command exist do
-	if command -v apt-get &> /dev/null; then
-		########Question Procedure
-		apt-get update;
-		apt-get install whiptail;
-		#if SERVER_IP is defined do confirmation
-		if [ $SERVER_IP != "" ]; then
-			if ! (whiptail --title "IP Address Check" --backtitle "$whiptail_title" --yesno "Is the Main IP of the Server? $SERVER_IP" 10 50) then
-				SERVER_IP="";
-			fi;
-		fi;
-    
-		#if SERVER_IP is not defined do loop till user input
-		while [ $SERVER_IP == "" ]; do
-			SERVER_IP=$(whiptail --title "Server IP" --backtitle "$whiptail_title" --inputbox "Please specify a Server IP" --nocancel 10 50 3>&1 1>&2 2>&3);
-		done;
-  	
-		#if $HOSTNAME_SHORT is not defined do loop till user input
-		while [ $HOSTNAME_SHORT == "" ]; do
-			HOSTNAME_SHORT=$(whiptail --title "Short Hostname" --backtitle "$whiptail_title" --inputbox "Please specify a Short Hostname" --nocancel 10 50 3>&1 1>&2 2>&3);
-		done;
-  	
-		#if $HOSTNAME_FULL is not defined do loop till user input
-		while [ $HOSTNAME_FULL == "" ]; do
-			HOSTNAME_FULL=$(whiptail --title "Fully Qualified Hostname" --backtitle "$whiptail_title" --inputbox "Please specify a Fully Qualified Hostname" --nocancel 10 50 3>&1 1>&2 2>&3);
-		done
-		
-		#which SQL SERVER engine to install?
-		while [ "$SQL_SERVER" == "" ]; do
-			SQL_SERVER=$(whiptail --title "SQL Server" --backtitle "$whiptail_title" --nocancel --radiolist "Select SQL Server Software" 10 50 2 "MariaDB" "(default)" ON "MySQL" "" OFF 3>&1 1>&2 2>&3);
-		done
-    		
-		if [ "$SQL_SERVER" == "MariaDB" ]; then
-			while [ "$MARIADB_VERSION" == "" ]; do
-				MARIADB_VERSION=$(whiptail --title "MariaDB Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select MariaDB Version" 10 50 2 "5.5" "" OFF "10.0" "(default)" ON "10.1" "" OFF 3>&1 1>&2 2>&3);
-			done;
-		else if [ "$SQL_SERVER" == "MySQL" ]; then
-			while [ "$MYSQL_VERSION" == "" ]; do
-				MYSQL_VERSION=$(whiptail --title "MariaDB Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select MySQL Version" 10 50 2 "5.5" "" OFF "5.6" "(default)" ON "5.7" "" OFF 3>&1 1>&2 2>&3);
-			done;
-		fi;
-    		
-    		#install web server?
-		if (whiptail --title "Install Web Server" --backtitle "$whiptail_title" --yesno "Install Web Server?" 10 50) then
-			install_web_server=true;
-			while [ "$WEB_SERVER" == "" ]; do
-				WEB_SERVER=$(whiptail --title "Web Server" --backtitle "$whiptail_title" --nocancel --radiolist "Select Web Server Software" 10 50 2 "Nginx" "(default)" ON 3>&1 1>&2 2>&3)
-				#WEB_SERVER=$(whiptail --title "Web Server" --backtitle "$whiptail_title" --nocancel --radiolist "Select Web Server Software" 10 50 2 "Nginx" "(default)" ON "Apache" "" OFF 3>&1 1>&2 2>&3)
-			done;
-		else
-			install_web_server=false;
-		fi;
-		
-		
-		
-		
-	fi;
+	
 else
 	echo "Error: Your OS is not supported.";
 	exit 1;
