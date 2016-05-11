@@ -83,11 +83,11 @@ if [ $DISTRIBUTION == "ubuntu" ] && [ $DISTRIBUTION_VERSION = "xenial" ]; then
     
         if [ "$SQL_SERVER" == "MariaDB" ]; then
             while [ "$MARIADB_VERSION" == "" ]; do
-                MARIADB_VERSION=$(whiptail --title "MariaDB Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select MariaDB Version" 10 50 2 "5.5" "" OFF "10.0" "(default)" ON "10.1" "" OFF 3>&1 1>&2 2>&3);
+                MARIADB_VERSION=$(whiptail --title "MariaDB Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select MariaDB Version" 10 50 3 "5.5" "" OFF "10.0" "(default)" ON "10.1" "" OFF 3>&1 1>&2 2>&3);
             done;
         elif [ "$SQL_SERVER" == "MySQL" ]; then
             while [ "$MYSQL_VERSION" == "" ]; do
-                MYSQL_VERSION=$(whiptail --title "MariaDB Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select MySQL Version" 10 50 2 "5.5" "" OFF "5.6" "(default)" ON "5.7" "" OFF 3>&1 1>&2 2>&3);
+                MYSQL_VERSION=$(whiptail --title "MariaDB Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select MySQL Version" 10 50 3 "5.5" "" OFF "5.6" "(default)" ON "5.7" "" OFF 3>&1 1>&2 2>&3);
             done;
         fi;
     
