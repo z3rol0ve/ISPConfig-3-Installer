@@ -61,6 +61,22 @@ if [ $DISTRIBUTION == "ubuntu" ] && [ $DISTRIBUTION_VERSION = "xenial" ]; then
             fi;
         fi;
         
+        #if SERVER_IP is not defined do loop till user input
+        while [ $SERVER_IP == "" ]; do
+            SERVER_IP=$(whiptail --title "Server IP" --backtitle "$whiptail_title" --inputbox "Please specify a Server IP" --nocancel 10 50 3>&1 1>&2 2>&3);
+        done;
+    
+        #if $HOSTNAME_SHORT is not defined do loop till user input
+        while [ $HOSTNAME_SHORT == "" ]; do
+            HOSTNAME_SHORT=$(whiptail --title "Short Hostname" --backtitle "$whiptail_title" --inputbox "Please specify a Short Hostname" --nocancel 10 50 3>&1 1>&2 2>&3);
+        done;
+    
+        #if $HOSTNAME_FULL is not defined do loop till user input
+        while [ $HOSTNAME_FULL == "" ]; do
+            HOSTNAME_FULL=$(whiptail --title "Fully Qualified Hostname" --backtitle "$whiptail_title" --inputbox "Please specify a Fully Qualified Hostname" --nocancel 10 50 3>&1 1>&2 2>&3);
+        done;
+    
+        
     fi;
 else
 	echo "Error: Your OS is not supported.";
