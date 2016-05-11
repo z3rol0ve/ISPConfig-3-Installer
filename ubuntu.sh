@@ -76,7 +76,31 @@ if [ $DISTRIBUTION == "ubuntu" ] && [ $DISTRIBUTION_VERSION = "xenial" ]; then
             HOSTNAME_FULL=$(whiptail --title "Fully Qualified Hostname" --backtitle "$whiptail_title" --inputbox "Please specify a Fully Qualified Hostname" --nocancel 10 50 3>&1 1>&2 2>&3);
         done;
     
-        
+        #which SQL SERVER engine to install?
+        while [ "$SQL_SERVER" == "" ]; do
+            SQL_SERVER=$(whiptail --title "SQL Server" --backtitle "$whiptail_title" --nocancel --radiolist "Select SQL Server Software" 10 50 2 "MariaDB" "(default)" ON "MySQL" "" OFF 3>&1 1>&2 2>&3);
+        done;
+    
+        if [ "$SQL_SERVER" == "MariaDB" ]; then
+            while [ "$MARIADB_VERSION" == "" ]; do
+                MARIADB_VERSION=$(whiptail --title "MariaDB Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select MariaDB Version" 10 50 2 "5.5" "" OFF "10.0" "(default)" ON "10.1" "" OFF 3>&1 1>&2 2>&3);
+            done;
+        else if [ "$SQL_SERVER" == "MySQL" ]; then
+            while [ "$MYSQL_VERSION" == "" ]; do
+                MYSQL_VERSION=$(whiptail --title "MariaDB Version" --backtitle "$whiptail_title" --nocancel --radiolist "Select MySQL Version" 10 50 2 "5.5" "" OFF "5.6" "(default)" ON "5.7" "" OFF 3>&1 1>&2 2>&3);
+            done;
+        fi;
+    
+        #install web server?
+        if (whiptail --title "Install Web Server" --backtitle "$whiptail_title" --yesno "Install Web Server?" 10 50) then
+            install_web_server=true;
+            while [ "$WEB_SERVER" == "" ]; do
+                WEB_SERVER=$(whiptail --title "Web Server" --backtitle "$whiptail_title" --nocancel --radiolist "Select Web Server Software" 10 50 2 "Nginx" "(default)" ON 3>&1 1>&2 2>&3)
+            #WEB_SERVER=$(whiptail --title "Web Server" --backtitle "$whiptail_title" --nocancel --radiolist "Select Web Server Software" 10 50 2 "Nginx" "(default)" ON "Apache" "" OFF 3>&1 1>&2 2>&3)
+            done;
+        else
+            install_web_server=false;
+        fi;
     fi;
 else
 	echo "Error: Your OS is not supported.";
