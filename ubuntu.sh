@@ -31,7 +31,6 @@ HOSTNAME_FULL="";
 ###### DETECTING OS & ITS VERSION
 #if lsb_release command exist do
 if [ $(command -v lsb_release) ]; then
-    echo "haha";
     if [ $(lsb_release -is) == "Ubuntu" ]; then
     DISTRIBUTION=ubuntu;
     DISTRIBUTION_VERSION=$(lsb_release -sc);
@@ -55,6 +54,13 @@ if [ $DISTRIBUTION == "ubuntu" ] && [ $DISTRIBUTION_VERSION = "xenial" ]; then
         ########Question Procedure
         apt-get update;
         apt-get install whiptail;
+        #if SERVER_IP is defined do confirmation
+        if [ $SERVER_IP != "" ]; then
+            if ! (whiptail --title "IP Address Check" --backtitle "$whiptail_title" --yesno "Is the Main IP of the Server? $SERVER_IP" 10 50) then
+                SERVER_IP="";
+            fi;
+        fi;
+        
     fi;
 else
 	echo "Error: Your OS is not supported.";
