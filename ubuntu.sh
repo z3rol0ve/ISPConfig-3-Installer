@@ -31,19 +31,19 @@ HOSTNAME_FULL="";
 ###### DETECTING OS & ITS VERSION
 #if lsb_release command exist do
 if [ $(command -v lsb_release) ]; then
-        if [ $(lsb_release -is) == "Ubuntu" ]; then
+    if [ $(lsb_release -is) == "Ubuntu" ]; then
         DISTRIBUTION=ubuntu;
         DISTRIBUTION_VERSION=$(lsb_release -sc);
-        fi;
+    fi;
 fi;
 ###### GETTING SERVER MAIN IP
 #if all needed command exist do
 if [ $(command -v ip) ] && [ $(command -v cut) ] && [ $(command -v head) ] && [ $(command -v tail) ]; then
-        if [ ! -f /proc/user_beancounters ]; then
-		SERVER_IP=$(ip -f inet -o addr show eth0|cut -d\  -f 7 | cut -d/ -f 1 | head -2 | tail -1);
-	else
-		SERVER_IP=$(ip -f inet -o addr show venet0|cut -d\  -f 7 | cut -d/ -f 1 | head -2 | tail -1);
-	fi;
+    if [ ! -f /proc/user_beancounters ]; then
+        SERVER_IP=$(ip -f inet -o addr show eth0|cut -d\  -f 7 | cut -d/ -f 1 | head -2 | tail -1);
+    else
+        SERVER_IP=$(ip -f inet -o addr show venet0|cut -d\  -f 7 | cut -d/ -f 1 | head -2 | tail -1);
+    fi;
 fi;
 
 whiptail_title="ISPConfig Installer";
