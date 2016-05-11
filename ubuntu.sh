@@ -8,8 +8,8 @@
 
 #if user is not root then exit script
 if [ $(id -u) != "0" ]; then
-	echo "Error: You must be root to run this script, please use the root user to install the software.";
-	exit 1;
+    echo "Error: You must be root to run this script, please use the root user to install the software.";
+    exit 1;
 fi;
 #if ispconfig is installed exit script
 if [ -f /usr/local/ispconfig/interface/lib/config.inc.php ]; then
