@@ -31,6 +31,7 @@ HOSTNAME_FULL="";
 ###### DETECTING OS & ITS VERSION
 #if lsb_release command exist do
 if [ $(command -v lsb_release) ]; then
+    echo "haha";
     if [ $(lsb_release -is) == "Ubuntu" ]; then
         DISTRIBUTION=ubuntu;
         DISTRIBUTION_VERSION=$(lsb_release -sc);
