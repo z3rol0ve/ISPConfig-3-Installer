@@ -137,7 +137,7 @@ EOF
         fi
         
         ###### CONFIRMATION BEFORE PROCEED TO INSTALLATION
-        if (whiptail --title "Installation Confirmation" --backtitle "$whiptail_title" --yesno "Server IP: $SERVER_IP \nShort Hostname: $HOSTNAME_SHORT \nFQDN: $HOSTNAME_FULL \nSQL Server: $SQL_SERVER $SQL_VERSION \nSQL Root password: $SQL_PASS \nWeb Server: $install_web_server | $WEB_SERVER \nFTP Server: $install_ftp_server \nJailkit: $install_jailkit" 20 50) then
+        if (whiptail --title "Installation Confirmation" --backtitle "$whiptail_title" --yesno "Server IP: $SERVER_IP \nShort Hostname: $HOSTNAME_SHORT \nFQDN: $HOSTNAME_FULL \nSQL Server: $SQL_SERVER $SQL_VERSION \nSQL Root password: $SQL_PASS \nWeb Server: $install_web_server | $WEB_SERVER \nFTP Server: $install_ftp_server \nDNS Server: $install_dns_server \nJailkit: $install_jailkit" 20 50) then
             echo "################# SET HOSTNAME ##################\n"
             apt-get install -y hostname sed;
             sed -i "s/${SERVER_IP}.*/${SERVER_IP} ${HOSTNAME_FULL} ${HOSTNAME_SHORT}/" /etc/hosts
