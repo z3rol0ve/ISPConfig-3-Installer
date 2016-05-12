@@ -47,14 +47,9 @@ for file in $LIBRARYPATH/platforms/*.$DISTRIBUTION.sh; do
 done
 
 # Load Functions (Distribution Specific)
-if [ $DISTRIBUTION == "ubuntu" ]; then
-
-	if [ $DISTRIBUTION_VERSION != "xenial" ]; then
-		# Error Message
-		error "Your version is unsupported! this script only support xenial."
-		# Exit If Not Supported
-		exit
-	fi
+if [ $DISTRIBUTION == "debian" ]; then
+	source $FUNCTIONPATH/$DISTRIBUTION.functions.sh
+elif [ $DISTRIBUTION == "ubuntu" ]; then
 	source $FUNCTIONPATH/$DISTRIBUTION.functions.sh
 fi
 
