@@ -181,6 +181,12 @@ EOF
                     add-apt-repository -y ppa:nginx/stable
                     apt-get update
                     apt-get -y install nginx
+                    cat > /etc/nginx/conf.d/open_file_cache.conf <<EOF
+open_file_cache          max=10000 inactive=5m;
+open_file_cache_valid    2m;
+open_file_cache_min_uses 1;
+open_file_cache_errors   on;
+EOF
                     apt-get -y install php php7.0-curl php7.0-gd php7.0-intl php-pear php7.0-imap php-memcached php-memcache memcached php7.0-pspell php7.0-recode php7.0-sqlite3 php7.0-tidy php7.0-xmlrpc php7.0-xsl php7.0-mbstring php7.0-mcrypt mcrypt php7.0-mysql phpmyadmin fcgiwrap php-gettext letsencrypt
                     #reconfig php-fpm php.ini without touching it
                     cat > /etc/php/7.0/fpm/conf.d/custom.ini <<EOF
