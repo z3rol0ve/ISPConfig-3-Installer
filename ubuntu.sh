@@ -271,6 +271,13 @@ EOF
             tar xvfz ISPConfig-3.1b1.tar.gz
             cd ispconfig3_install/install
             php -q install.php
+            if [ $install_web_server == true ]; then
+                #fix ispapps group and user missing
+                groupadd ispapps
+                useradd -g ispapps -d /var/www/apps ispapps
+                usermod -a -G ispapps www-data
+            fi;
+            
         else
             echo "Script exiting...";
             exit 1;
