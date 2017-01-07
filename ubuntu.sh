@@ -187,7 +187,7 @@ open_file_cache_valid    2m;
 open_file_cache_min_uses 1;
 open_file_cache_errors   on;
 EOF
-			LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
+			#LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
                     apt-get -y install php php7.0-fpm php7.0-curl php7.0-gd php7.0-intl php-pear php7.0-imap php-memcached php-memcache memcached php7.0-pspell php7.0-recode php7.0-sqlite3 php7.0-tidy php7.0-xmlrpc php7.0-xml php7.0-xsl php7.0-mbstring php7.0-mcrypt mcrypt php7.0-mysql phpmyadmin fcgiwrap php-gettext letsencrypt
                     #reconfig php-fpm php.ini without touching it
                     cat > /etc/php/7.0/fpm/conf.d/custom.ini <<EOF
