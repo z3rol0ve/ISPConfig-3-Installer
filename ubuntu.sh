@@ -159,7 +159,10 @@ EOF
             		cp /etc/mysql/my.cnf /etc/mysql/my.cnf.backup
             		sed -i 's/bind-address/#bind-address/' /etc/mysql/my.cnf
             		if [ "$SQL_VERSION" == "10.1" ]; then
-            			sed -i 's/\[mysqld\]/\[mysqld\]\nsql-mode="NO_ENGINE_SUBSTITUTION"/' /etc/mysql/my.cnf
+				cat > /etc/mysql/conf.d/custom.cnf <<EOF
+[mysqld]
+sql-mode="NO_ENGINE_SUBSTITUTION"
+EOF
             		fi;
             		service mysql restart
             	fi;
